@@ -1,4 +1,4 @@
-package com.github.vendigo.grabdeezer.graph;
+package com.github.vendigo.musicfriends.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

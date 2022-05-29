@@ -1,9 +1,9 @@
 package com.github.vendigo.musicfriends.controller;
 
 import com.github.vendigo.musicfriends.model.ArtistNode;
-import com.github.vendigo.musicfriends.repository.ArtistRepository;
+import com.github.vendigo.musicfriends.model.PathNode;
+import com.github.vendigo.musicfriends.service.ArtistService;
 import lombok.AllArgsConstructor;
-import org.neo4j.driver.internal.value.PathValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,17 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 public class ArtistController {
 
-    private final ArtistRepository artistRepository;
+    private final ArtistService artistService;
 
     @GetMapping("/artist/find")
     public List<ArtistNode> findArtistByName(@RequestParam("name") String name) {
-        return artistRepository.findByNameLike(name);
+        return artistService.findArtist(name);
     }
 
     @GetMapping("/path")
-    public List<ArtistNode> findPath(@RequestParam("from") String from, @RequestParam("to") String to) {
-        PathValue path = (PathValue) artistRepository.findShortestPath(from, to)
-                .orElse(null);
-        return List.of();
+    public List<PathNode> findPath(@RequestParam("from") String from, @RequestParam("to") String to) {
+        return artistService.findPath(from, to);
     }
 }

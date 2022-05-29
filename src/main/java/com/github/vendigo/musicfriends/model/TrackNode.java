@@ -1,6 +1,5 @@
 package com.github.vendigo.musicfriends.model;
 
-import com.github.vendigo.musicfriends.model.ArtistNode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

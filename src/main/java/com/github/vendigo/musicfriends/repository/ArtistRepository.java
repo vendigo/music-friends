@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface ArtistRepository extends Neo4jRepository<ArtistNode, Long> {
 
-    @Query("MATCH (a:Artist) WHERE toLower(a.name) starts with $namePart RETURN a ORDER BY a.fans DESC LIMIT 20")
+    @Query("MATCH (a:Artist) WHERE a.lowerName contains $namePart RETURN a ORDER BY a.fans DESC LIMIT 20")
     List<ArtistNode> findByName(String namePart);
 
-    @Query("MATCH p = shortestPath((:Artist{name: $from})<-[*1..20]->(:Artist{name: $to})) RETURN p")
-    Optional<Object> findShortestPath(@Param("from") String from, @Param("to") String to);
+    @Query("MATCH p = shortestPath((:Artist{id: $from})<-[*1..20]->(:Artist{id: $to})) RETURN p")
+    Optional<Object> findShortestPath(@Param("from") Long from, @Param("to") Long to);
 
 }

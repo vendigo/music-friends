@@ -25,7 +25,7 @@ public class ArtistService {
         return artistRepository.findByName(name.toLowerCase());
     }
 
-    public List<PathNode> findPath(String from, String to) {
+    public List<PathNode> findPath(Long from, Long to) {
         Optional<Object> pathResponse = artistRepository.findShortestPath(from, to);
         if (pathResponse.isEmpty()) {
             return List.of();

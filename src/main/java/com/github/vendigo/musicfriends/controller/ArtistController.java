@@ -22,7 +22,7 @@ public class ArtistController {
     }
 
     @GetMapping("/path")
-    public List<PathNode> findPath(@RequestParam("from") String from, @RequestParam("to") String to) {
+    public List<PathNode> findPath(@RequestParam("from") Long from, @RequestParam("to") Long to) {
         return artistService.findPath(from, to);
     }
 }

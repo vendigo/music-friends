@@ -1,5 +1,8 @@
 package com.github.vendigo.musicfriends.bot;
 
+import com.github.vendigo.musicfriends.command.CommandParser;
+import com.github.vendigo.musicfriends.command.CommandType;
+import com.github.vendigo.musicfriends.command.FindArtistCommand;
 import com.github.vendigo.musicfriends.model.ArtistNode;
 import com.github.vendigo.musicfriends.service.ArtistService;
 import lombok.AllArgsConstructor;
@@ -11,14 +14,13 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessageconten
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
 
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.Optional;
 
 @Component
 @Slf4j
 @AllArgsConstructor
 public class InlineQueryHandler {
 
-    public static String DEEZER_ARTIST_LINK = "https://www.deezer.com/artist/";
     private final ArtistService artistService;
 
     public AnswerInlineQuery handleQuery(InlineQuery inlineQuery) {
@@ -33,23 +35,24 @@ public class InlineQueryHandler {
                 .build();
     }
 
-    private List<InlineQueryResultArticle> processQuery(String command) {
-        Matcher matcher = Utils.COMMAND_PATTERN.matcher(command);
+    private List<InlineQueryResultArticle> processQuery(String message) {
+        Optional<FindArtistCommand> commandOptional = CommandParser.parseFindArtistCommand(message);
 
-        if (!matcher.find()) {
-            log.info("Skipping query: {}", command);
+        if (commandOptional.isEmpty()) {
+            log.info("Skipping query: {}", message);
             return List.of();
         }
 
-        String query = matcher.group(Utils.SECOND_GROUP);
-        log.info("Processing query: {}", query);
-        return artistService.findArtist(query).stream()
-                .map(this::mapArtist)
+        FindArtistCommand command = commandOptional.get();
+
+        log.info("Processing query: {}", command);
+        return artistService.findArtist(command.query()).stream()
+                .map(artistNode -> mapArtist(command.commandType(), artistNode))
                 .toList();
     }
 
-    private InlineQueryResultArticle mapArtist(ArtistNode artist) {
-        String content = String.format("From: %s\n%s%d", artist.getName(), DEEZER_ARTIST_LINK, artist.getId());
+    private InlineQueryResultArticle mapArtist(CommandType commandType, ArtistNode artist) {
+        String content = String.format("%s: %s\n%s%d", commandType.getValue(), artist.getName(), Utils.DEEZER_ARTIST_LINK, artist.getId());
         InputTextMessageContent inputMessageContent = new InputTextMessageContent(content);
         inputMessageContent.setParseMode("html");
 

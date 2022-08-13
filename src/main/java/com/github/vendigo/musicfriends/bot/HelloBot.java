@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +17,7 @@ public class HelloBot extends TelegramLongPollingBot {
 
     private final MessageHandler messageHandler;
     private final InlineQueryHandler inlineQueryHandler;
+    private final CallbackQueryHandler callbackQueryHandler;
 
     @Value("${telegram.bot.username}")
     private String botUsername;
@@ -47,6 +45,12 @@ public class HelloBot extends TelegramLongPollingBot {
 
         if (update.hasInlineQuery()) {
             AnswerInlineQuery answer = inlineQueryHandler.handleQuery(update.getInlineQuery());
+            execute(answer);
+            return;
+        }
+
+        if (update.hasCallbackQuery()) {
+            SendMessage answer = callbackQueryHandler.handleCallbackQuery(update.getCallbackQuery());
             execute(answer);
         }
 

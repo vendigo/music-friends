@@ -10,3 +10,10 @@ server.port: 8081
 telegram.bot:
     username: music_friends_dev_bot
     token: ${BOT_TOKEN}
+
+messages:
+  greeting: "Привіт Окс! Пиксидикс. Тобі було колись цікаво, який зв'язок між двома, здавалося би зовсім різними артистами? Ну наприклад між Бумбоксом та Кіпєловим? З моєю допомогою ти можеш дізнатися. Гайда!"
+  setFirstArtist: "Обрати першого артиста"
+  setSecondArtist: "Обрати другого артиста"
+  chosenArtist: "Обраний артист: "
+  unknownCommand: "Невідома команда"

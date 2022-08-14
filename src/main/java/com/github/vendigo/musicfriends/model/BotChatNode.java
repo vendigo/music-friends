@@ -13,9 +13,7 @@ public class BotChatNode {
     @Id
     private Long id;
     @Property
-    private Long artistFromId;
-    @Property
-    private Long artistToId;
+    private Long artistId;
 
     public BotChatNode(Long id) {
         this.id = id;

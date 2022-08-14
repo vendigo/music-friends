@@ -16,8 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class HelloBot extends TelegramLongPollingBot {
 
     private final MessageHandler messageHandler;
-    private final InlineQueryHandler inlineQueryHandler;
-    private final CallbackQueryHandler callbackQueryHandler;
+    private final ArtistSearchHandler artistSearchHandler;
 
     @Value("${telegram.bot.username}")
     private String botUsername;
@@ -44,15 +43,8 @@ public class HelloBot extends TelegramLongPollingBot {
         }
 
         if (update.hasInlineQuery()) {
-            AnswerInlineQuery answer = inlineQueryHandler.handleQuery(update.getInlineQuery());
-            execute(answer);
-            return;
-        }
-
-        if (update.hasCallbackQuery()) {
-            SendMessage answer = callbackQueryHandler.handleCallbackQuery(update.getCallbackQuery());
+            AnswerInlineQuery answer = artistSearchHandler.handleQuery(update.getInlineQuery());
             execute(answer);
         }
-
     }
 }

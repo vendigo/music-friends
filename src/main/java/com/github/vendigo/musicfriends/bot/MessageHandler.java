@@ -66,20 +66,25 @@ public class MessageHandler {
         SetArtistCommand command = commandOptional.get();
         if (chat.getArtistId() == null) {
             chatService.setArtist(chat, command.artistId());
-
             answer.setText(messages.getChosenArtist() + command.artistName());
             answer.setReplyMarkup(buildReplyMarkup(messages.getSetSecondArtist()));
             return answer;
         }
 
+        log.info("Searching path between: {} and {}", chat.getArtistId(), command.artistId());
         List<PathNode> path = artistService.findPath(chat.getArtistId(), command.artistId());
-        String response = responseBuilder.buildPathResponse(path);
-        answer.setText(response);
-        answer.setParseMode("html");
-        answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
-        answer.disableWebPagePreview();
         chatService.setArtist(chat, null);
+        answer.setReplyMarkup(buildReplyMarkup(messages.getTryAgain()));
 
+        if (!path.isEmpty()) {
+            String response = responseBuilder.buildPathResponse(path);
+            answer.setText(response);
+            answer.setParseMode("html");
+            answer.disableWebPagePreview();
+            return answer;
+        }
+
+        answer.setText(messages.getPathNotFound());
         return answer;
     }
 

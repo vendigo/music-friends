@@ -12,6 +12,8 @@ public class Messages {
     private String greeting;
     private String setFirstArtist;
     private String setSecondArtist;
+    private String tryAgain;
     private String chosenArtist;
     private String unknownCommand;
+    private String pathNotFound;
 }

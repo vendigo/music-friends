@@ -18,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ArtistSearchHandler {
 
+    //language=RegExp
+    private static final String QUERY_PATTERN = "[\\w./,()]{0,40}";
     private final ArtistService artistService;
 
     public AnswerInlineQuery handleQuery(InlineQuery inlineQuery) {
@@ -32,7 +34,13 @@ public class ArtistSearchHandler {
     }
 
     private List<InlineQueryResultArticle> processQuery(String query) {
-        log.info("Processing query: {}", query);
+        log.debug("Processing query: {}", query);
+
+        if (isInvalidQuery(query)) {
+            log.debug("Skipping invalid query: {}", query);
+            return List.of();
+        }
+
         return artistService.findArtist(query).stream()
                 .map(this::mapArtist)
                 .toList();
@@ -50,5 +58,9 @@ public class ArtistSearchHandler {
                 .thumbUrl(artist.getPicture())
                 .build();
 
+    }
+
+    private boolean isInvalidQuery(String query) {
+        return !query.matches(QUERY_PATTERN);
     }
 }

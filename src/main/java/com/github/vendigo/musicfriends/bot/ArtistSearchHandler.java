@@ -19,7 +19,7 @@ import java.util.List;
 public class ArtistSearchHandler {
 
     //language=RegExp
-    private static final String QUERY_PATTERN = "[\\w./,()]{0,40}";
+    private static final String QUERY_PATTERN = "[^<>]{0,40}";
     private final ArtistService artistService;
 
     public AnswerInlineQuery handleQuery(InlineQuery inlineQuery) {

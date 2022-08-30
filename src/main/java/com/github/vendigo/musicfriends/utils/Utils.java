@@ -5,6 +5,6 @@ public class Utils {
 
     public static boolean isSetArtistCommand(String command) {
         String[] lines = command.split("\n");
-        return lines.length == 2 && lines[1].contains(DEEZER_ARTIST_LINK);
+        return lines.length == 2 && lines[1].startsWith(DEEZER_ARTIST_LINK);
     }
 }

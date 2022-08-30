@@ -8,14 +8,18 @@ spring:
 server.port: 8081
 
 telegram.bot:
-    username: music_friends_dev_bot
-    token: ${BOT_TOKEN}
+  username: music_friends_dev_bot
+  token: ${BOT_TOKEN}
 
 messages:
-  greeting: "Привіт username. Тобі було колись цікаво, який зв'язок між двома, здавалося би зовсім різними артистами? Ну наприклад між Бумбоксом та Кіпєловим? З моєю допомогою ти можеш дізнатися. Гайда!"
+  greeting: "Привіт %s. Тобі було колись цікаво, який зв'язок між двома, здавалося би зовсім різними артистами? Ну наприклад між Скофкою та Eminem? З моєю допомогою ти можеш дізнатися. Гайда!"
   setFirstArtist: "Обрати першого артиста"
   setSecondArtist: "Обрати другого артиста"
   chosenArtist: "Обраний артист: "
   unknownCommand: "Невідома команда"
   tryAgain: "Спробувати ще раз"
   pathNotFound: "Шлях не знайдений"
+
+logging:
+  level:
+    com.github.vendigo.musicfriends: info

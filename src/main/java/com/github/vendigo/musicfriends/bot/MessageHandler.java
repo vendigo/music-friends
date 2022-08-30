@@ -12,12 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.github.vendigo.musicfriends.utils.Utils.isSetArtistCommand;
 
@@ -35,46 +38,44 @@ public class MessageHandler {
         Long chatId = message.getChatId();
         answer.setChatId(chatId.toString());
         String messageText = message.getText();
+        String username = buildUsername(message.getFrom());
 
         if (messageText.equals("/start")) {
-            return processStartCommand(answer);
+            return processStartCommand(answer, username);
         }
 
         if (isSetArtistCommand(messageText)) {
-            return processSetArtistCommand(chatId, answer, messageText);
+            return processSetArtistCommand(chatId, username, answer, messageText);
         }
 
         answer.setText(messages.getUnknownCommand());
         return answer;
     }
 
-    private SendMessage processStartCommand(SendMessage answer) {
-        answer.setText(messages.getGreeting());
+    private SendMessage processStartCommand(SendMessage answer, String username) {
+        String message = String.format(messages.getGreeting(), username);
+        answer.setText(message);
         answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
         return answer;
     }
 
-    private SendMessage processSetArtistCommand(Long chatId, SendMessage answer, String messageText) {
-        BotChatNode chat = chatService.findChat(chatId);
-        Optional<SetArtistCommand> commandOptional = CommandParser.parseSetArtistCommand(messageText);
+    private SendMessage processSetArtistCommand(Long chatId, String username, SendMessage answer, String messageText) {
+        BotChatNode chat = chatService.findChat(chatId, username);
+        SetArtistCommand command = CommandParser.parseSetArtistCommand(messageText);
 
-        if (commandOptional.isEmpty()) {
-            answer.setText(messages.getUnknownCommand());
-            return answer;
-        }
-
-        SetArtistCommand command = commandOptional.get();
         if (chat.getArtistId() == null) {
-            chatService.setArtist(chat, command.artistId());
-            answer.setText(messages.getChosenArtist() + command.artistName());
-            answer.setReplyMarkup(buildReplyMarkup(messages.getSetSecondArtist()));
-            return answer;
+            return setArtist(answer, chat, command);
         }
 
+        return searchPath(answer, chat, command);
+    }
+
+    private SendMessage searchPath(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
         log.info("Searching path between: {} and {}", chat.getArtistId(), command.artistId());
-        List<PathNode> path = artistService.findPath(chat.getArtistId(), command.artistId());
-        chatService.setArtist(chat, null);
         answer.setReplyMarkup(buildReplyMarkup(messages.getTryAgain()));
+
+        List<PathNode> path = artistService.findPath(chat.getArtistId(), command.artistId());
+        chatService.logPathSearch(chat);
 
         if (!path.isEmpty()) {
             String response = responseBuilder.buildPathResponse(path);
@@ -88,6 +89,13 @@ public class MessageHandler {
         return answer;
     }
 
+    private SendMessage setArtist(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
+        chatService.setArtist(chat, command.artistId());
+        answer.setText(messages.getChosenArtist() + command.artistName());
+        answer.setReplyMarkup(buildReplyMarkup(messages.getSetSecondArtist()));
+        return answer;
+    }
+
     private ReplyKeyboard buildReplyMarkup(String actionName) {
         return InlineKeyboardMarkup.builder()
                 .keyboardRow(List.of(
@@ -98,5 +106,13 @@ public class MessageHandler {
                 .build();
     }
 
+    private String buildUsername(User from) {
+        return Optional.ofNullable(from.getUserName())
+                .orElseGet(() ->
+                        Stream.of(from.getFirstName(), from.getLastName())
+                                .filter(str -> !str.isBlank())
+                                .collect(Collectors.joining(" "))
+                );
+    }
 
 }

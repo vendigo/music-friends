@@ -1,7 +1,6 @@
-package com.github.vendigo.musicfriends.bot;
+package com.github.vendigo.musicfriends.utils;
 
 import com.github.vendigo.musicfriends.model.PathNode;
-import com.github.vendigo.musicfriends.utils.Utils;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 

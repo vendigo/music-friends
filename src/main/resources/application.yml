@@ -1,3 +1,7 @@
+logging:
+  level:
+    com.github.vendigo.musicfriends: info
+
 spring:
   neo4j:
     uri: bolt://localhost:7687
@@ -5,11 +9,13 @@ spring:
       username: neo4j
       password: neo4jPass
 
-server.port: 8081
-
 telegram.bot:
+  mode: ${BOT_MODE}
   username: music_friends_dev_bot
   token: ${BOT_TOKEN}
+  path: https://5c8a-31-41-71-207.eu.ngrok.io
+
+usage.day.limit: 100
 
 messages:
   greeting: "Привіт %s. Тобі було колись цікаво, який зв'язок між двома, здавалося би зовсім різними артистами? Ну наприклад між Скофкою та Eminem? З моєю допомогою ти можеш дізнатися. Гайда!"
@@ -19,7 +25,4 @@ messages:
   unknownCommand: "Невідома команда"
   tryAgain: "Спробувати ще раз"
   pathNotFound: "Шлях не знайдений"
-
-logging:
-  level:
-    com.github.vendigo.musicfriends: info
+  usageLimitReached: "Досягнуто ліміт використання на день. Повертайтеся завтра."

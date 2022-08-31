@@ -7,8 +7,10 @@ import com.github.vendigo.musicfriends.model.PathNode;
 import com.github.vendigo.musicfriends.service.ArtistService;
 import com.github.vendigo.musicfriends.service.BotChatService;
 import com.github.vendigo.musicfriends.utils.Messages;
-import lombok.AllArgsConstructor;
+import com.github.vendigo.musicfriends.utils.ResponseBuilder;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -26,12 +28,15 @@ import static com.github.vendigo.musicfriends.utils.Utils.isSetArtistCommand;
 
 @Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MessageHandler {
     private final BotChatService chatService;
     private final ArtistService artistService;
     private final Messages messages;
     private final ResponseBuilder responseBuilder;
+
+    @Value("${usage.day.limit}")
+    private int usageDayLimit;
 
     public SendMessage handleMessage(Message message) {
         SendMessage answer = new SendMessage();
@@ -71,11 +76,18 @@ public class MessageHandler {
     }
 
     private SendMessage searchPath(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
-        log.info("Searching path between: {} and {}", chat.getArtistId(), command.artistId());
-        answer.setReplyMarkup(buildReplyMarkup(messages.getTryAgain()));
+        Long firstArtistId = chat.getArtistId();
+        chatService.setArtist(chat, null);
 
-        List<PathNode> path = artistService.findPath(chat.getArtistId(), command.artistId());
-        chatService.logPathSearch(chat);
+        if (chat.getUsageCount() >= usageDayLimit) {
+            log.info("Usage limit reached for user: {}", chat.getUsername());
+            answer.setText(messages.getUsageLimitReached());
+            return answer;
+        }
+
+        log.info("Searching path between: {} and {}", firstArtistId, command.artistId());
+        answer.setReplyMarkup(buildReplyMarkup(messages.getTryAgain()));
+        List<PathNode> path = artistService.findPath(firstArtistId, command.artistId());
 
         if (!path.isEmpty()) {
             String response = responseBuilder.buildPathResponse(path);
@@ -85,6 +97,7 @@ public class MessageHandler {
             return answer;
         }
 
+        chatService.logPathSearch(chat);
         answer.setText(messages.getPathNotFound());
         return answer;
     }

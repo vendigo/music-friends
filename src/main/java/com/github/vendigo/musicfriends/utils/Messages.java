@@ -16,4 +16,5 @@ public class Messages {
     private String chosenArtist;
     private String unknownCommand;
     private String pathNotFound;
+    private String usageLimitReached;
 }

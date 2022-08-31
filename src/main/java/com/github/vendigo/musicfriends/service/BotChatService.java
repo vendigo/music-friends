@@ -15,7 +15,7 @@ public class BotChatService {
 
     private final BotChatRepository chatRepository;
 
-    public void setArtist(BotChatNode chat, long artistId) {
+    public void setArtist(BotChatNode chat, Long artistId) {
         chat.setArtistId(artistId);
         chatRepository.save(chat);
     }
@@ -26,7 +26,6 @@ public class BotChatService {
     }
 
     public void logPathSearch(BotChatNode chat) {
-        chat.setArtistId(null);
         LocalDate today = LocalDate.now();
         if (!today.equals(chat.getLastUsageDate())) {
             chat.setLastUsageDate(today);

@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @RequiredArgsConstructor
 @Slf4j
 @ConditionalOnProperty(name = "telegram.bot.mode", havingValue = "pooling")
-public class PollingBot extends TelegramLongPollingBot {
+public class MusicFriendsPollingBot extends TelegramLongPollingBot {
 
     private final UpdateHandler updateHandler;
 

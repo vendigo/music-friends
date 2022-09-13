@@ -26,5 +26,6 @@ public class BotChatNode {
     public BotChatNode(long id, String username) {
         this.id = id;
         this.username = username;
+        this.usageCount = 0L;
     }
 }

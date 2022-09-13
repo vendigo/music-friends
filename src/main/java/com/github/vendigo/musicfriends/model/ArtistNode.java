@@ -20,4 +20,6 @@ public class ArtistNode {
     private String picture;
     @Property
     private Integer fans;
+    @Property
+    private Integer priority;
 }

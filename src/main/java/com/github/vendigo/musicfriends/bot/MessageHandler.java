@@ -88,6 +88,7 @@ public class MessageHandler {
         log.info("Searching path between: {} and {}", firstArtistId, command.artistId());
         answer.setReplyMarkup(buildReplyMarkup(messages.getTryAgain()));
         List<PathNode> path = artistService.findPath(firstArtistId, command.artistId());
+        chatService.logPathSearch(chat);
 
         if (!path.isEmpty()) {
             String response = responseBuilder.buildPathResponse(path);
@@ -97,7 +98,6 @@ public class MessageHandler {
             return answer;
         }
 
-        chatService.logPathSearch(chat);
         answer.setText(messages.getPathNotFound());
         return answer;
     }

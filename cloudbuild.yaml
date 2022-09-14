@@ -1,0 +1,11 @@
+steps:
+  - id: Gradle build
+    name: 'gradle:7.5.0-jdk18-alpine'
+    args: [ 'build' ]
+    entrypoint: gradle
+  - id: Build Docker image
+    name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '--tag=europe-southwest1-docker.pkg.dev/music-friends-362414/music-friends-repo', '.' ]
+  - id: Push Docker image
+    name: "gcr.io/cloud-builders/docker"
+    args: [ "push", "europe-southwest1-docker.pkg.dev/music-friends-362414/music-friends-repo" ]

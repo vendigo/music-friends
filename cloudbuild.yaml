@@ -1,11 +1,14 @@
 steps:
-  - id: Gradle build
-    name: 'gradle:7.5.0-jdk18-alpine'
-    args: [ 'build' ]
-    entrypoint: gradle
   - id: Build Docker image
-    name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '--tag=europe-southwest1-docker.pkg.dev/music-friends-362414/music-friends-repo', '.' ]
+    name: 'gradle:7.5.1-jdk18-alpine'
+    args: [ 'bootBuildImage', "--imageName=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
+    entrypoint: gradle
   - id: Push Docker image
     name: "gcr.io/cloud-builders/docker"
-    args: [ "push", "europe-southwest1-docker.pkg.dev/music-friends-362414/music-friends-repo" ]
+    args: [ "push", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
+  - id: Deploy to Cloud Run
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args: [ "run", "services", "update", "$_SERVICE_NAME", "--platform=managed", "--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA", "--region=$_DEPLOY_REGION", "--quiet" ]
+    entrypoint: gcloud
+options:
+    substitutionOption: ALLOW_LOOSE

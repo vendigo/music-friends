@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Slf4j
 public class BotChatService {
-
     private final BotChatRepository chatRepository;
 
     public void setArtist(BotChatNode chat, Long artistId) {
@@ -29,10 +28,19 @@ public class BotChatService {
         LocalDate today = LocalDate.now();
         if (!today.equals(chat.getLastUsageDate())) {
             chat.setLastUsageDate(today);
-            chat.setUsageCount(0L);
+            chat.setDayUsageCount(0L);
         }
 
-        chat.setUsageCount(chat.getUsageCount() + 1);
+        chat.setDayUsageCount(chat.getDayUsageCount() + 1);
+        chat.setTotalUsageCount(chat.getTotalUsageCount() + 1);
         chatRepository.save(chat);
+    }
+
+    public long getTotalUsers() {
+        return chatRepository.count();
+    }
+
+    public long getTotalUsages() {
+        return chatRepository.getTotalUsages();
     }
 }

@@ -79,7 +79,7 @@ public class MessageHandler {
         Long firstArtistId = chat.getArtistId();
         chatService.setArtist(chat, null);
 
-        if (chat.getUsageCount() >= usageDayLimit) {
+        if (chat.getDayUsageCount() >= usageDayLimit) {
             log.info("Usage limit reached for user: {}", chat.getUsername());
             answer.setText(messages.getUsageLimitReached());
             return answer;

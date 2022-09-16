@@ -21,11 +21,14 @@ public class BotChatNode {
     @Property
     private LocalDate lastUsageDate;
     @Property
-    private Long usageCount;
+    private Long dayUsageCount;
+    @Property
+    private Long totalUsageCount;
 
     public BotChatNode(long id, String username) {
         this.id = id;
         this.username = username;
-        this.usageCount = 0L;
+        this.dayUsageCount = 0L;
+        this.totalUsageCount = 0L;
     }
 }

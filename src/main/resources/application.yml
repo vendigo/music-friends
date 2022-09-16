@@ -11,9 +11,10 @@ spring:
     authentication:
       username: ${NEO4J_LOGIN}
       password: ${NEO4J_PASSWORD}
+  profiles:
+    active: ${BOT_MODE}
 
 telegram.bot:
-  mode: ${BOT_MODE}
   username: music_friends_dev_bot
   token: ${BOT_TOKEN}
   path: ${WEBHOOK_PATH}

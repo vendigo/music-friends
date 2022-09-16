@@ -1,12 +1,14 @@
 package com.github.vendigo.musicfriends.bot;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class UpdateHandler {
 
     private final MessageHandler messageHandler;
@@ -21,7 +23,8 @@ public class UpdateHandler {
             return artistSearchHandler.handleQuery(update.getInlineQuery());
         }
 
-        throw new IllegalArgumentException("Other updates are not supported");
+        log.error("Unsupported update: {}", update);
+        throw new IllegalArgumentException("Unsupported update");
     }
 
 }

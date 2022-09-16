@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Service
 public class ResponseBuilder {
 
-    public String buildPathResponse(List<PathNode> path) {
+    public String buildPathResponse(List<PathNode> path, String footer) {
         List<String> lines = Lists.partition(path, 2).stream()
                 .map(ResponseBuilder::pathNodeToString)
                 .collect(Collectors.toList());
@@ -20,6 +20,10 @@ public class ResponseBuilder {
             } else {
                 lines.set(i, "    \uD83D\uDD39" + lines.get(i));
             }
+        }
+
+        if (footer != null) {
+            lines.add("\n" + footer);
         }
 
         return String.join("\n", lines);

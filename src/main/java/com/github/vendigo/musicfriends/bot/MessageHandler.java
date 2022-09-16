@@ -55,6 +55,10 @@ public class MessageHandler {
             return processSetArtistCommand(chatId, username, answer, messageText);
         }
 
+        if (messageText.equals("/links")) {
+            return processLinksCommand(answer);
+        }
+
         answer.setText(messages.getUnknownCommand());
         return answer;
     }
@@ -62,6 +66,12 @@ public class MessageHandler {
     private SendMessage processStartCommand(SendMessage answer, String username) {
         String message = String.format(messages.getGreeting(), username);
         answer.setText(message);
+        answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
+        return answer;
+    }
+
+    private SendMessage processLinksCommand(SendMessage answer) {
+        answer.setText(messages.getUsefulLinks());
         answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
         return answer;
     }
@@ -88,7 +98,7 @@ public class MessageHandler {
         }
 
         if (chat.getDayUsageCount() == usageDayNotify) {
-            answer.setText(messages.getConsiderDonating());
+            answer.setText(messages.getLikeMe());
             return answer;
         }
 
@@ -98,7 +108,8 @@ public class MessageHandler {
         chatService.logPathSearch(chat);
 
         if (!path.isEmpty()) {
-            String response = responseBuilder.buildPathResponse(path);
+            String footer = chat.getDayUsageCount() == usageDayNotify ? messages.getLikeMe() : null;
+            String response = responseBuilder.buildPathResponse(path, footer);
             answer.setText(response);
             answer.setParseMode("html");
             answer.disableWebPagePreview();

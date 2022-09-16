@@ -15,11 +15,12 @@ spring:
     active: ${BOT_MODE}
 
 telegram.bot:
-  username: music_friends_dev_bot
+  username: music_friends_bot
   token: ${BOT_TOKEN}
   path: ${WEBHOOK_PATH}
 
 usage.day.limit: 100
+usage.day.notify: 5
 
 messages:
   greeting: "Привіт %s. Тобі було колись цікаво, який зв'язок між двома, здавалося би зовсім різними артистами? Ну наприклад між Скофкою та Eminem? З моєю допомогою ти можеш дізнатися. Гайда!"
@@ -30,3 +31,4 @@ messages:
   tryAgain: "Спробувати ще раз"
   pathNotFound: "Шлях не знайдений"
   usageLimitReached: "Досягнуто ліміт використання на день. Повертайтеся завтра."
+  considerDonating: "Схоже що я тобі впав довподоби. Якщо є бажання і можливість, задонать мені на банку: https://send.monobank.ua/jar/AeBTagsVMX. Всі гроші підуть на підтримку ЗСУ."

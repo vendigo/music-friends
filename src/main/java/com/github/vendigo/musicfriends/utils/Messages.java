@@ -17,4 +17,5 @@ public class Messages {
     private String unknownCommand;
     private String pathNotFound;
     private String usageLimitReached;
+    private String considerDonating;
 }

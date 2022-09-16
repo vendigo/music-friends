@@ -37,6 +37,8 @@ public class MessageHandler {
 
     @Value("${usage.day.limit}")
     private int usageDayLimit;
+    @Value("${usage.day.notify}")
+    private int usageDayNotify;
 
     public SendMessage handleMessage(Message message) {
         SendMessage answer = new SendMessage();
@@ -82,6 +84,11 @@ public class MessageHandler {
         if (chat.getDayUsageCount() >= usageDayLimit) {
             log.info("Usage limit reached for user: {}", chat.getUsername());
             answer.setText(messages.getUsageLimitReached());
+            return answer;
+        }
+
+        if (chat.getDayUsageCount() == usageDayNotify) {
+            answer.setText(messages.getConsiderDonating());
             return answer;
         }
 

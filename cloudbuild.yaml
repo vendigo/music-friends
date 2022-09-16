@@ -1,16 +1,16 @@
 steps:
   - id: Build Docker image
     name: 'gradle:7.5.1-jdk18-alpine'
-    args: [ 'bootBuildImage', "--imageName=$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
+    args: [ 'bootBuildImage', "--imageName=$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
     entrypoint: gradle
   - id: Push Docker image
     name: "gcr.io/cloud-builders/docker"
-    args: [ "push", "$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
+    args: [ "push", "$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
   - id: Deploy to Cloud Run
     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
-    args: [ "run", "services", "update", "$_SERVICE_NAME", "--platform=managed", "--image=$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA", "--region=$_DEPLOY_REGION", "--quiet" ]
+    args: [ "run", "services", "update", "$_SERVICE_NAME", "--platform=managed", "--image=$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA", "--region=$_DEPLOY_REGION", "--quiet" ]
     entrypoint: gcloud
 images:
-  - '$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+  - '$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
 options:
     substitutionOption: ALLOW_LOOSE

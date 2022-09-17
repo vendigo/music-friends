@@ -19,4 +19,5 @@ public class Messages {
     private String usageLimitReached;
     private String likeMe;
     private String usefulLinks;
+    private String noCollabs;
 }

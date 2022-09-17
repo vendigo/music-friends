@@ -48,4 +48,8 @@ public class ArtistService {
                 String.format(LINK_TEMPLATE, "track", node.get("id").asInt()),
                 null);
     }
+
+    public boolean noCollabs(Long artistId) {
+        return artistRepository.countRelations(artistId) == 0;
+    }
 }

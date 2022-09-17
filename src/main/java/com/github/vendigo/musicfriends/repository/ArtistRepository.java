@@ -16,4 +16,7 @@ public interface ArtistRepository extends Neo4jRepository<ArtistNode, Long> {
     @Query("MATCH p = shortestPath((:Artist{id: $from})<-[*1..20]->(:Artist{id: $to})) RETURN p")
     Optional<Object> findShortestPath(@Param("from") Long from, @Param("to") Long to);
 
+    @Query("MATCH p=(:Artist{id: $id})-[r:contribute]->() RETURN count(p)")
+    long countRelations(Long id);
+
 }

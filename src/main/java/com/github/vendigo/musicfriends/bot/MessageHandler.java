@@ -89,6 +89,14 @@ public class MessageHandler {
 
     private SendMessage searchPath(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
         Long firstArtistId = chat.getArtistId();
+        long secondArtistId = command.artistId();
+
+        if (artistService.noCollabs(secondArtistId)) {
+            answer.setText(messages.getNoCollabs());
+            answer.setReplyMarkup(buildReplyMarkup(messages.getSetSecondArtist()));
+            return answer;
+        }
+
         chatService.setArtist(chat, null);
 
         if (chat.getDayUsageCount() >= usageDayLimit) {
@@ -97,14 +105,9 @@ public class MessageHandler {
             return answer;
         }
 
-        if (chat.getDayUsageCount() == usageDayNotify) {
-            answer.setText(messages.getLikeMe());
-            return answer;
-        }
-
-        log.info("Searching path between: {} and {}", firstArtistId, command.artistId());
+        log.info("Searching path between: {} and {}", firstArtistId, secondArtistId);
         answer.setReplyMarkup(buildReplyMarkup(messages.getTryAgain()));
-        List<PathNode> path = artistService.findPath(firstArtistId, command.artistId());
+        List<PathNode> path = artistService.findPath(firstArtistId, secondArtistId);
         chatService.logPathSearch(chat);
 
         if (!path.isEmpty()) {
@@ -121,7 +124,14 @@ public class MessageHandler {
     }
 
     private SendMessage setArtist(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
-        chatService.setArtist(chat, command.artistId());
+        long artistId = command.artistId();
+        if (artistService.noCollabs(artistId)) {
+            answer.setText(messages.getNoCollabs());
+            answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
+            return answer;
+        }
+
+        chatService.setArtist(chat, artistId);
         answer.setText(messages.getChosenArtist() + command.artistName());
         answer.setReplyMarkup(buildReplyMarkup(messages.getSetSecondArtist()));
         return answer;

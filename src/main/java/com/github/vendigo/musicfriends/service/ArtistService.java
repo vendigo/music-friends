@@ -22,6 +22,10 @@ public class ArtistService {
     private final ArtistRepository artistRepository;
 
     public List<ArtistNode> findArtist(String name) {
+        if (name.isBlank()) {
+            return artistRepository.findMostPopular();
+        }
+
         return artistRepository.findByName(name.toLowerCase());
     }
 

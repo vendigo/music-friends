@@ -13,6 +13,8 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQuery
 
 import java.util.List;
 
+import static org.thymeleaf.util.StringUtils.isEmpty;
+
 @Component
 @Slf4j
 @AllArgsConstructor
@@ -42,6 +44,7 @@ public class ArtistSearchHandler {
         }
 
         return artistService.findArtist(query).stream()
+                .filter(artist -> !isEmpty(artist.getName()))
                 .map(this::mapArtist)
                 .toList();
     }

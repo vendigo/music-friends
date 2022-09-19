@@ -20,4 +20,5 @@ public class Messages {
     private String likeMe;
     private String usefulLinks;
     private String noCollabs;
+    private String sameArtist;
 }

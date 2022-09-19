@@ -65,15 +65,11 @@ public class MessageHandler {
 
     private SendMessage processStartCommand(SendMessage answer, String username) {
         String message = String.format(messages.getGreeting(), username);
-        answer.setText(message);
-        answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
-        return answer;
+        return buildAnswer(answer, message, messages.getSetFirstArtist());
     }
 
     private SendMessage processLinksCommand(SendMessage answer) {
-        answer.setText(messages.getUsefulLinks());
-        answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
-        return answer;
+        return buildAnswer(answer, messages.getUsefulLinks(), messages.getSetFirstArtist());
     }
 
     private SendMessage processSetArtistCommand(Long chatId, String username, SendMessage answer, String messageText) {
@@ -81,20 +77,22 @@ public class MessageHandler {
         SetArtistCommand command = CommandParser.parseSetArtistCommand(messageText);
 
         if (chat.getArtistId() == null) {
-            return setArtist(answer, chat, command);
+            return setFirstArtist(answer, chat, command);
         }
 
         return searchPath(answer, chat, command);
     }
 
     private SendMessage searchPath(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
-        Long firstArtistId = chat.getArtistId();
+        long firstArtistId = chat.getArtistId();
         long secondArtistId = command.artistId();
 
+        if (firstArtistId == secondArtistId) {
+            return buildAnswer(answer, messages.getSameArtist(), messages.getSetSecondArtist());
+        }
+
         if (artistService.noCollabs(secondArtistId)) {
-            answer.setText(messages.getNoCollabs());
-            answer.setReplyMarkup(buildReplyMarkup(messages.getSetSecondArtist()));
-            return answer;
+            return buildAnswer(answer, messages.getNoCollabs(), messages.getSetSecondArtist());
         }
 
         chatService.setArtist(chat, null);
@@ -111,30 +109,30 @@ public class MessageHandler {
         chatService.logPathSearch(chat);
 
         if (!path.isEmpty()) {
-            String footer = chat.getDayUsageCount() == usageDayNotify ? messages.getLikeMe() : null;
-            String response = responseBuilder.buildPathResponse(path, footer);
-            answer.setText(response);
-            answer.setParseMode("html");
-            answer.disableWebPagePreview();
-            return answer;
+            return createPathResponse(answer, chat, path);
         }
 
         answer.setText(messages.getPathNotFound());
         return answer;
     }
 
-    private SendMessage setArtist(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
+    private SendMessage createPathResponse(SendMessage answer, BotChatNode chat, List<PathNode> path) {
+        String footer = chat.getDayUsageCount() == usageDayNotify ? messages.getLikeMe() : null;
+        String response = responseBuilder.buildPathResponse(path, footer);
+        answer.setText(response);
+        answer.setParseMode("html");
+        answer.disableWebPagePreview();
+        return answer;
+    }
+
+    private SendMessage setFirstArtist(SendMessage answer, BotChatNode chat, SetArtistCommand command) {
         long artistId = command.artistId();
         if (artistService.noCollabs(artistId)) {
-            answer.setText(messages.getNoCollabs());
-            answer.setReplyMarkup(buildReplyMarkup(messages.getSetFirstArtist()));
-            return answer;
+            return buildAnswer(answer, messages.getNoCollabs(), messages.getSetFirstArtist());
         }
 
         chatService.setArtist(chat, artistId);
-        answer.setText(messages.getChosenArtist() + command.artistName());
-        answer.setReplyMarkup(buildReplyMarkup(messages.getSetSecondArtist()));
-        return answer;
+        return buildAnswer(answer, messages.getChosenArtist() + command.artistName(), messages.getSetSecondArtist());
     }
 
     private ReplyKeyboard buildReplyMarkup(String actionName) {
@@ -154,6 +152,12 @@ public class MessageHandler {
                                 .filter(str -> !str.isBlank())
                                 .collect(Collectors.joining(" "))
                 );
+    }
+
+    private SendMessage buildAnswer(SendMessage answer, String message, String actionMessage) {
+        answer.setText(message);
+        answer.setReplyMarkup(buildReplyMarkup(actionMessage));
+        return answer;
     }
 
 }

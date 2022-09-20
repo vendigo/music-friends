@@ -1,0 +1,35 @@
+logging:
+  level:
+    com.github.vendigo.musicfriends: info
+
+spring:
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: neo4j
+  profiles:
+    active: none
+
+telegram.bot:
+  username: music_friends_bot_test
+  token: testToken
+  path: http://localhost
+
+usage.day.limit: 100
+usage.day.notify: 3
+
+messages:
+  greeting: "Привіт %s. Вам цікаво, який зв'язок між двома, зовсім різними артистами? Ну наприклад між Skofka та Eminem? Або Павло Зібров та Billie Eilish. Гайда дізнаємося!"
+  setFirstArtist: "Обрати першого артиста"
+  setSecondArtist: "Обрати другого артиста"
+  chosenArtist: "Обраний артист: "
+  unknownCommand: "Невідома команда"
+  tryAgain: "Спробувати ще раз"
+  pathNotFound: "Шлях не знайдений"
+  usageLimitReached: "Досягнуто ліміт використання на день. Повертайтеся завтра."
+  likeMe: "Схоже, що я припав вам довподоби 😀. Якщо є бажання, можете задонатити мені на банку: https://send.monobank.ua/jar/AeBTagsVMX\nВсі гроші підуть на підтримку ЗСУ. 
+  А якщо хочете дізнатися, як зробити такого бота, приєднуйтеся: https://t.me/+HaC7IklWV-liMmQy"
+  usefulLinks: "Банка: https://send.monobank.ua/jar/AeBTagsVMX\nTelegram канал: https://t.me/+HaC7IklWV-liMmQy"
+  noCollabs: "Обраний артист не має спільних пісень. Спробуйте іншого."
+  sameArtist: "Даний артист вже обраний першим, виберіть іншого."

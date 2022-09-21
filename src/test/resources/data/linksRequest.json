@@ -1,0 +1,28 @@
+{
+  "update_id": 291385584,
+  "message": {
+    "message_id": 300,
+    "from": {
+      "id": 576207528,
+      "first_name": "Petro",
+      "is_bot": false,
+      "last_name": "Pomagai",
+      "language_code": "uk"
+    },
+    "date": 1663613939,
+    "chat": {
+      "id": 576207528,
+      "type": "private",
+      "first_name": "Petro",
+      "last_name": "Pomagai"
+    },
+    "text": "/links",
+    "entities": [
+      {
+        "type": "bot_command",
+        "offset": 0,
+        "length": 6
+      }
+    ]
+  }
+}

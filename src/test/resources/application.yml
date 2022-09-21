@@ -2,14 +2,8 @@ logging:
   level:
     com.github.vendigo.musicfriends: info
 
-spring:
-  neo4j:
-    uri: bolt://localhost:7687
-    authentication:
-      username: neo4j
-      password: neo4j
-  profiles:
-    active: none
+spring.profiles.active: webhook
+telegrambots.enabled: false
 
 telegram.bot:
   username: music_friends_bot_test

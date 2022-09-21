@@ -1,0 +1,15 @@
+{
+  "chat_id": "576207528",
+  "text": "Банка: https://send.monobank.ua/jar/AeBTagsVMX\nTelegram канал: https://t.me/+HaC7IklWV-liMmQy",
+  "reply_markup": {
+    "inline_keyboard": [
+      [
+        {
+          "text": "Обрати першого артиста",
+          "switch_inline_query_current_chat": ""
+        }
+      ]
+    ]
+  },
+  "method": "sendmessage"
+}

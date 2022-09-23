@@ -1,11 +1,11 @@
 {
-  "chat_id": "576207528",
-  "text": "Useful links",
+  "chat_id": "583107529",
+  "text": "Chosen artist: Skofka",
   "reply_markup": {
     "inline_keyboard": [
       [
         {
-          "text": "Choose first artist",
+          "text": "Choose second artist",
           "switch_inline_query_current_chat": ""
         }
       ]

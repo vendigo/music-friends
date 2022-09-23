@@ -17,6 +17,8 @@ public class ArtistNode {
     @Property
     private String name;
     @Property
+    private String lowerName;
+    @Property
     private String picture;
     @Property
     private Integer fans;

@@ -1,0 +1,16 @@
+{
+  "inline_query_id": "2474362996172712561",
+  "results": [
+    {
+      "type": "article",
+      "id": "2",
+      "title": "Skofka",
+      "input_message_content": {
+        "message_text": "Skofka\nhttps://www.deezer.com/artist/2",
+        "parse_mode": "html"
+      },
+      "thumb_url": "skofka.png"
+    }
+  ],
+  "method": "answerInlineQuery"
+}

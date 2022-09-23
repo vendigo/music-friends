@@ -1,0 +1,28 @@
+{
+  "update_id": 291385633,
+  "message": {
+    "message_id": 342,
+    "from": {
+      "id": 583107529,
+      "first_name": "Petro",
+      "is_bot": false,
+      "last_name": "Pomagai",
+      "language_code": "uk"
+    },
+    "date": 1663941849,
+    "chat": {
+      "id": 583107529,
+      "type": "private",
+      "first_name": "Petro",
+      "last_name": "Pomagai"
+    },
+    "text": "/start",
+    "entities": [
+      {
+        "type": "bot_command",
+        "offset": 0,
+        "length": 6
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "update_id": 291385634,
+  "inline_query": {
+    "id": "2474362996172712561",
+    "from": {
+      "id": 583107529,
+      "first_name": "Petro",
+      "is_bot": false,
+      "last_name": "Pomagai",
+      "language_code": "uk"
+    },
+    "query": "",
+    "offset": "",
+    "chat_type": "sender"
+  }
+}

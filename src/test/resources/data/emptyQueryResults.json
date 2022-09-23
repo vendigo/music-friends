@@ -1,0 +1,46 @@
+{
+  "inline_query_id": "2474362996172712561",
+  "results": [
+    {
+      "type": "article",
+      "id": "1",
+      "title": "Billie Eilish",
+      "input_message_content": {
+        "message_text": "Billie Eilish\nhttps://www.deezer.com/artist/1",
+        "parse_mode": "html"
+      },
+      "thumb_url": "billieAva.png"
+    },
+    {
+      "type": "article",
+      "id": "3",
+      "title": "Metallica",
+      "input_message_content": {
+        "message_text": "Metallica\nhttps://www.deezer.com/artist/3",
+        "parse_mode": "html"
+      },
+      "thumb_url": "metallica.png"
+    },
+    {
+      "type": "article",
+      "id": "2",
+      "title": "Skofka",
+      "input_message_content": {
+        "message_text": "Skofka\nhttps://www.deezer.com/artist/2",
+        "parse_mode": "html"
+      },
+      "thumb_url": "skofka.png"
+    },
+    {
+      "type": "article",
+      "id": "4",
+      "title": "KALUSH",
+      "input_message_content": {
+        "message_text": "KALUSH\nhttps://www.deezer.com/artist/4",
+        "parse_mode": "html"
+      },
+      "thumb_url": "kalush.png"
+    }
+  ],
+  "method": "answerInlineQuery"
+}

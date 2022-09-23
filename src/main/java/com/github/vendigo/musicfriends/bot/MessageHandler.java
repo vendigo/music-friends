@@ -64,11 +64,13 @@ public class MessageHandler {
     }
 
     private SendMessage processStartCommand(SendMessage answer, String username) {
+        log.info("Start command from chatId: {}", answer.getChatId());
         String message = String.format(messages.getGreeting(), username);
         return buildAnswer(answer, message, messages.getSetFirstArtist());
     }
 
     private SendMessage processLinksCommand(SendMessage answer) {
+        log.info("Links command from chatId: {}", answer.getChatId());
         return buildAnswer(answer, messages.getUsefulLinks(), messages.getSetFirstArtist());
     }
 

@@ -12,7 +12,7 @@ public interface ArtistRepository extends Neo4jRepository<ArtistNode, Long> {
 
     @Query("MATCH (a:Artist) WHERE a.lowerName contains $namePart RETURN a " +
             "ORDER BY apoc.text.levenshteinDistance(a.lowerName, $namePart), a.fans DESC LIMIT 20")
-    List<ArtistNode> findByName(String namePart);
+    List<ArtistNode> findByName(@Param("namePart") String namePart);
 
     @Query("MATCH (a:Artist) RETURN a ORDER BY a.fans DESC LIMIT 20")
     List<ArtistNode> findMostPopular();
@@ -21,6 +21,6 @@ public interface ArtistRepository extends Neo4jRepository<ArtistNode, Long> {
     Optional<Object> findShortestPath(@Param("from") Long from, @Param("to") Long to);
 
     @Query("MATCH p=(:Artist{id: $id})-[r:contribute]->() RETURN count(p)")
-    long countRelations(Long id);
+    long countRelations(@Param("id") Long id);
 
 }

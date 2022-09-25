@@ -1,4 +1,4 @@
-package com.github.vendigo.musicfriends.bot;
+package com.github.vendigo.musicfriends.handler;
 
 import com.github.vendigo.musicfriends.model.ArtistNode;
 import com.github.vendigo.musicfriends.service.ArtistService;

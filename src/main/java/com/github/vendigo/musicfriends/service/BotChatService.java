@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDate;
 
 @Service
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Slf4j
 public class BotChatService {
     private final BotChatRepository chatRepository;
+    private final Clock clock;
 
     public void setArtist(BotChatNode chat, Long artistId) {
         chat.setArtistId(artistId);
@@ -25,7 +27,7 @@ public class BotChatService {
     }
 
     public void logPathSearch(BotChatNode chat) {
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(clock);
         if (!today.equals(chat.getLastUsageDate())) {
             chat.setLastUsageDate(today);
             chat.setDayUsageCount(0L);
@@ -33,6 +35,7 @@ public class BotChatService {
 
         chat.setDayUsageCount(chat.getDayUsageCount() + 1);
         chat.setTotalUsageCount(chat.getTotalUsageCount() + 1);
+        chat.setArtistId(null);
         chatRepository.save(chat);
     }
 

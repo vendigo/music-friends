@@ -33,6 +33,16 @@
     },
     {
       "type": "article",
+      "id": "5",
+      "title": "John Snow",
+      "input_message_content": {
+        "message_text": "John Snow\nhttps://www.deezer.com/artist/5",
+        "parse_mode": "html"
+      },
+      "thumb_url": "john_snow.png"
+    },
+    {
+      "type": "article",
       "id": "4",
       "title": "KALUSH",
       "input_message_content": {

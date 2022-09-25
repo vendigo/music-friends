@@ -2,7 +2,8 @@ logging:
   level:
     com.github.vendigo.musicfriends: info
 
-spring.profiles.active: webhook
+spring.profiles.active: webhook, test
+
 telegrambots.enabled: false
 
 telegram.bot:

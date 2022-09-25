@@ -1,5 +1,6 @@
 package com.github.vendigo.musicfriends.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Node("BotChat")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class BotChatNode {
     @Id
     private Long id;

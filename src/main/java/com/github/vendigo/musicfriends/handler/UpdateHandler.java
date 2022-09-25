@@ -1,4 +1,4 @@
-package com.github.vendigo.musicfriends.bot;
+package com.github.vendigo.musicfriends.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

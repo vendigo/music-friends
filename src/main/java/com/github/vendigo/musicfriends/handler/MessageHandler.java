@@ -1,4 +1,4 @@
-package com.github.vendigo.musicfriends.bot;
+package com.github.vendigo.musicfriends.handler;
 
 import com.github.vendigo.musicfriends.command.CommandParser;
 import com.github.vendigo.musicfriends.command.SetArtistCommand;
@@ -97,9 +97,9 @@ public class MessageHandler {
             return buildAnswer(answer, messages.getNoCollabs(), messages.getSetSecondArtist());
         }
 
-        chatService.setArtist(chat, null);
+        chatService.logPathSearch(chat);
 
-        if (chat.getDayUsageCount() >= usageDayLimit) {
+        if (chat.getDayUsageCount() > usageDayLimit) {
             log.info("Usage limit reached for user: {}", chat.getUsername());
             answer.setText(messages.getUsageLimitReached());
             return answer;
@@ -108,7 +108,6 @@ public class MessageHandler {
         log.info("Searching path between: {} and {}", firstArtistId, secondArtistId);
         answer.setReplyMarkup(buildReplyMarkup(messages.getTryAgain()));
         List<PathNode> path = artistService.findPath(firstArtistId, secondArtistId);
-        chatService.logPathSearch(chat);
 
         if (!path.isEmpty()) {
             return createPathResponse(answer, chat, path);

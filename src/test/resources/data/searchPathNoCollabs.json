@@ -1,0 +1,34 @@
+{
+  "update_id": 291385645,
+  "message": {
+    "message_id": 344,
+    "from": {
+      "id": 3,
+      "first_name": "Petro",
+      "is_bot": false,
+      "last_name": "Pomagai",
+      "language_code": "uk"
+    },
+    "date": 1663943704,
+    "chat": {
+      "id": 3,
+      "type": "private",
+      "first_name": "Petro",
+      "last_name": "Pomagai"
+    },
+    "text": "Metallica\nhttps://www.deezer.com/artist/3",
+    "entities": [
+      {
+        "type": "url",
+        "offset": 7,
+        "length": 39
+      }
+    ],
+    "via_bot": {
+      "id": 5700938869,
+      "first_name": "Music Friends",
+      "is_bot": true,
+      "username": "music_friends_bot"
+    }
+  }
+}

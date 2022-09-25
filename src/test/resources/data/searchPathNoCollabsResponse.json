@@ -1,0 +1,15 @@
+{
+  "chat_id": "3",
+  "text": "Artist doesn't have collabs",
+  "reply_markup": {
+    "inline_keyboard": [
+      [
+        {
+          "text": "Choose second artist",
+          "switch_inline_query_current_chat": ""
+        }
+      ]
+    ]
+  },
+  "method": "sendmessage"
+}

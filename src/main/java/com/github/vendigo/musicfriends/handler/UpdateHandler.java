@@ -23,8 +23,8 @@ public class UpdateHandler {
             return artistSearchHandler.handleQuery(update.getInlineQuery());
         }
 
-        log.error("Unsupported update: {}", update);
-        throw new IllegalArgumentException("Unsupported update");
+        log.info("Unsupported update: {}", update);
+        return null;
     }
 
 }

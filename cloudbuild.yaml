@@ -1,14 +1,17 @@
 steps:
-  - id: Build Docker image
-    name: 'gradle:7.5.1-jdk18-alpine'
-    args: [ 'bootBuildImage', "--imageName=$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
+  - id: Build Jar file
+    name: "gradle:7.5.1-jdk18-alpine"
+    args: [ "assemble"]
     entrypoint: gradle
+  - id: Build Docker image
+    name: "gcr.io/cloud-builders/docker"
+    args: [ "build", "-t", "$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA", "." ]
   - id: Push Docker image
     name: "gcr.io/cloud-builders/docker"
     args: [ "push", "$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA" ]
   - id: Deploy to Cloud Run
-    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
     args: [ "run", "services", "update", "$_SERVICE_NAME", "--platform=managed", "--image=$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA", "--region=$_DEPLOY_REGION", "--quiet" ]
     entrypoint: gcloud
 images:
-  - '$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+  - "$_AR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA"

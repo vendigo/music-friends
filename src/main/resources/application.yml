@@ -11,8 +11,6 @@ spring:
     authentication:
       username: ${NEO4J_LOGIN}
       password: ${NEO4J_PASSWORD}
-  profiles:
-    active: ${BOT_MODE}
 
 telegram.bot:
   username: music_friends_bot

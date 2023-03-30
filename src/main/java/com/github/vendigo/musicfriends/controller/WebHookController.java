@@ -1,6 +1,6 @@
 package com.github.vendigo.musicfriends.controller;
 
-import com.github.vendigo.musicfriends.bot.MusicFriendsWebhookBot;
+import com.github.vendigo.musicfriends.handler.UpdateHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,10 +12,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @AllArgsConstructor
 public class WebHookController {
 
-    private final MusicFriendsWebhookBot bot;
+    private final UpdateHandler updateHandler;
 
     @PostMapping("/callback/music-friends")
     public BotApiMethod<?> handleUpdate(@RequestBody Update update) {
-        return bot.onWebhookUpdateReceived(update);
+        return updateHandler.handleUpdate(update);
     }
 }

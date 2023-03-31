@@ -5,9 +5,11 @@ import com.github.vendigo.musicfriends.model.NodeType;
 import com.github.vendigo.musicfriends.model.PathNode;
 import com.github.vendigo.musicfriends.repository.ArtistRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.neo4j.driver.internal.value.PathValue;
 import org.neo4j.driver.types.Node;
 import org.neo4j.driver.types.Path;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,16 +18,20 @@ import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ArtistService {
 
     private static final String LINK_TEMPLATE = "https://www.deezer.com/%s/%d";
     private final ArtistRepository artistRepository;
 
+    @Cacheable("artists")
     public List<ArtistNode> findArtist(String name) {
         if (name.isBlank()) {
+            log.info("Searching for most popular artists");
             return artistRepository.findMostPopular();
         }
 
+        log.info("Searching for artist: {}", name);
         return artistRepository.findByName(name.toLowerCase());
     }
 

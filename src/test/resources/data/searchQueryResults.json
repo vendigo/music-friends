@@ -9,7 +9,7 @@
         "message_text": "Skofka\nhttps://www.deezer.com/artist/2",
         "parse_mode": "html"
       },
-      "thumb_url": "skofka.png"
+      "thumbnail_url": "skofka.png"
     }
   ],
   "method": "answerInlineQuery"

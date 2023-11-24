@@ -1,5 +1,6 @@
 package com.github.vendigo.musicfriends.service;
 
+import com.github.vendigo.musicfriends.config.ClockService;
 import com.github.vendigo.musicfriends.model.BotChatNode;
 import com.github.vendigo.musicfriends.repository.BotChatRepository;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @Slf4j
 public class BotChatService {
     private final BotChatRepository chatRepository;
-    private final Clock clock;
+    private final ClockService clockService;
 
     public void setArtist(BotChatNode chat, Long artistId) {
         chat.setArtistId(artistId);
@@ -27,7 +28,7 @@ public class BotChatService {
     }
 
     public void logPathSearch(BotChatNode chat) {
-        LocalDate today = LocalDate.now(clock);
+        LocalDate today = clockService.nowDate();
         if (!today.equals(chat.getLastUsageDate())) {
             chat.setLastUsageDate(today);
             chat.setDayUsageCount(0L);

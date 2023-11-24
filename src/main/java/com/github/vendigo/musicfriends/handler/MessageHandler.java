@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -25,15 +27,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.github.vendigo.musicfriends.utils.Utils.isSetArtistCommand;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class MessageHandler {
+    private static final String COMMAND_START = "/start";
+    private static final String COMMAND_LINKS = "/links";
+
     private final BotChatService chatService;
     private final ArtistService artistService;
     private final Messages messages;
-    private final ResponseBuilder responseBuilder;
 
     @Value("${usage.day.limit}")
     private int usageDayLimit;
@@ -47,7 +53,7 @@ public class MessageHandler {
         String messageText = message.getText();
         String username = buildUsername(message.getFrom());
 
-        if (messageText.equals("/start")) {
+        if (messageText.equals(COMMAND_START)) {
             return processStartCommand(answer, username);
         }
 
@@ -55,7 +61,7 @@ public class MessageHandler {
             return processSetArtistCommand(chatId, username, answer, messageText);
         }
 
-        if (messageText.equals("/links")) {
+        if (messageText.equals(COMMAND_LINKS)) {
             return processLinksCommand(answer);
         }
 
@@ -119,9 +125,9 @@ public class MessageHandler {
 
     private SendMessage createPathResponse(SendMessage answer, BotChatNode chat, List<PathNode> path) {
         String footer = chat.getDayUsageCount() == usageDayNotify ? messages.getLikeMe() : null;
-        String response = responseBuilder.buildPathResponse(path, footer);
+        String response = ResponseBuilder.buildPathResponse(path, footer);
         answer.setText(response);
-        answer.setParseMode("html");
+        answer.setParseMode(ParseMode.HTML);
         answer.disableWebPagePreview();
         return answer;
     }
@@ -141,7 +147,7 @@ public class MessageHandler {
                 .keyboardRow(List.of(
                         InlineKeyboardButton.builder()
                                 .text(actionName)
-                                .switchInlineQueryCurrentChat("")
+                                .switchInlineQueryCurrentChat(EMPTY)
                                 .build()))
                 .build();
     }
@@ -151,7 +157,7 @@ public class MessageHandler {
                 .orElseGet(() ->
                         Stream.of(from.getFirstName(), from.getLastName())
                                 .filter(str -> !str.isBlank())
-                                .collect(Collectors.joining(" "))
+                                .collect(Collectors.joining(SPACE))
                 );
     }
 

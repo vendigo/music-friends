@@ -2,14 +2,9 @@ logging:
   level:
     com.github.vendigo.musicfriends: info
 
-spring.profiles.active: webhook, test
+spring.profiles.active: test
 
 telegrambots.enabled: false
-
-telegram.bot:
-  username: music_friends_bot_test
-  token: testToken
-  path: http://localhost
 
 usage.day.limit: 100
 usage.day.notify: 3

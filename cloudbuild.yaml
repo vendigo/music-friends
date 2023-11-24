@@ -1,6 +1,6 @@
 steps:
   - id: Build Jar file
-    name: "gradle:7.5.1-jdk18-alpine"
+    name: "gradle:8.4.0-jdk21-graal"
     args: [ "assemble"]
     entrypoint: gradle
   - id: Build Docker image

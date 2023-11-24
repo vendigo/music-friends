@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
@@ -52,13 +53,13 @@ public class ArtistSearchHandler {
     private InlineQueryResultArticle mapArtist(ArtistNode artist) {
         String content = String.format("%s\n%s%d", artist.getName(), Utils.DEEZER_ARTIST_LINK, artist.getId());
         InputTextMessageContent inputMessageContent = new InputTextMessageContent(content);
-        inputMessageContent.setParseMode("html");
+        inputMessageContent.setParseMode(ParseMode.HTML);
 
         return InlineQueryResultArticle.builder()
                 .id(artist.getId().toString())
                 .title(artist.getName())
                 .inputMessageContent(inputMessageContent)
-                .thumbUrl(artist.getPicture())
+                .thumbnailUrl(artist.getPicture())
                 .build();
 
     }

@@ -9,7 +9,7 @@
         "message_text": "Billie Eilish\nhttps://www.deezer.com/artist/1",
         "parse_mode": "html"
       },
-      "thumb_url": "billieAva.png"
+      "thumbnail_url": "billieAva.png"
     },
     {
       "type": "article",
@@ -19,7 +19,7 @@
         "message_text": "Metallica\nhttps://www.deezer.com/artist/3",
         "parse_mode": "html"
       },
-      "thumb_url": "metallica.png"
+      "thumbnail_url": "metallica.png"
     },
     {
       "type": "article",
@@ -29,7 +29,7 @@
         "message_text": "Skofka\nhttps://www.deezer.com/artist/2",
         "parse_mode": "html"
       },
-      "thumb_url": "skofka.png"
+      "thumbnail_url": "skofka.png"
     },
     {
       "type": "article",
@@ -39,7 +39,7 @@
         "message_text": "John Snow\nhttps://www.deezer.com/artist/5",
         "parse_mode": "html"
       },
-      "thumb_url": "john_snow.png"
+      "thumbnail_url": "john_snow.png"
     },
     {
       "type": "article",
@@ -49,7 +49,7 @@
         "message_text": "KALUSH\nhttps://www.deezer.com/artist/4",
         "parse_mode": "html"
       },
-      "thumb_url": "kalush.png"
+      "thumbnail_url": "kalush.png"
     }
   ],
   "method": "answerInlineQuery"

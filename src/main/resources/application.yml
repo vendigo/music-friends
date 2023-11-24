@@ -11,11 +11,9 @@ spring:
     authentication:
       username: ${NEO4J_LOGIN}
       password: ${NEO4J_PASSWORD}
-
-telegram.bot:
-  username: music_friends_bot
-  token: ${BOT_TOKEN}
-  path: ${WEBHOOK_PATH}
+  threads:
+    virtual:
+      enabled: true
 
 usage.day.limit: 100
 usage.day.notify: 3
@@ -29,8 +27,8 @@ messages:
   tryAgain: "Спробувати ще раз"
   pathNotFound: "Шлях не знайдений"
   usageLimitReached: "Досягнуто ліміт використання на день. Повертайтеся завтра."
-  likeMe: "Схоже, що я припав вам довподоби 😀. Щоб побачити більше цікавинок приєднуйтесь: https://t.me/patyson_ua  
+  likeMe: "Схоже, що я припав вам довподоби 😀. Щоб побачити більше цікавинок приєднуйтесь: https://t.me/+oQds-ofZD2tkYzky  
   А якщо вам цікаво, як зробити такого бота, вам сюди: https://t.me/ace_code"
-  usefulLinks: "Патисон: https://t.me/patyson_ua\nAce Code: https://t.me/ace_code"
+  usefulLinks: "Патисон: https://t.me/+oQds-ofZD2tkYzky\nAce Code: https://t.me/ace_code"
   noCollabs: "Обраний артист не має спільних пісень. Спробуйте іншого."
   sameArtist: "Даний артист вже обраний першим, виберіть іншого."

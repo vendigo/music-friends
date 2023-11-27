@@ -50,6 +50,10 @@ dependencies {
 	testImplementation "org.testcontainers:neo4j:1.19.3"
 }
 
+configurations.configureEach {
+	exclude group:"commons-logging", module: "commons-logging"
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
@@ -67,12 +71,12 @@ tasks.register("deployToGCP") {
 	doLast {
 		exec {
 			executable = "docker"
-			args = listOf("push", dockerImageName)
+			args = ["push", dockerImageName]
 		}
 
 		exec {
 			executable = "gcloud.cmd"
-			args = listOf(
+			args = [
 					"run",
 					"services",
 					"update",
@@ -80,8 +84,9 @@ tasks.register("deployToGCP") {
 					"--platform=managed",
 					"--image=$dockerImageName",
 					"--region=europe-southwest1",
-					"--quiet"
-			)
+					"--quiet",
+					"--project=music-friends-362414"
+			]
 		}
 	}
 }
